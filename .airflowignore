@@ -1,0 +1,7 @@
+.git
+.worktrees
+data_platform.git
+.gitignore
+README.md
+__pycache__
+*.pyc
