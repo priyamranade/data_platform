@@ -1,9 +1,7 @@
-from datetime import datetime
-from airflow import DAG
-from airflow.operators.python import PythonOperator
-
-def analyze_transactions():
-    """Transaction analytics for Priyam's data platform"""
+def analyze_transactions_pyspark(**context):
+    """PySpark transaction analytics for Priyam's data platform"""
+    
+    # Mock transaction data (replace with S3/Kafka in production)
     transactions = [
         {"id": 1, "amount": 100.50, "status": "success"},
         {"id": 2, "amount": 250.00, "status": "failed"},
@@ -14,24 +12,33 @@ def analyze_transactions():
         {"id": 7, "amount": 99.99, "status": "failed"}
     ]
     
-    success_txns = [t for t in transactions if t["status"] == "success"]
-    total_success = sum(t["amount"] for t in success_txns)
+    # Convert to Spark DataFrame (production: read from S3)
+    from pyspark.sql import SparkSession
     
-    print(f"🎉 Processed {len(transactions)} transactions")
-    print(f"✅ {len(success_txns)} successful = ${total_success:.2f}")
-    print(f"📊 Success rate: {len(success_txns)/len(transactions)*100:.1f}%")
-    return "SUCCESS"
-
-# Airflow 3.1.7 SYNTAX (schedule NOT schedule_interval)
-with DAG(
-    dag_id="priyam_transactions_airflow3",
-    start_date=datetime(2026, 3, 6),
-    schedule="*/30 * * * *",  # FIXED: Airflow 3.x syntax
-    catchup=False,
-    tags=["priyam", "data-engineer", "transactions"]
-) as dag:
-
-    analytics_task = PythonOperator(
-        task_id="analyze_transactions",
-        python_callable=analyze_transactions
-    )
+    spark = SparkSession.builder \
+        .appName("PriyamTransactionAnalytics") \
+        .master("local[*]") \
+        .getOrCreate()
+    
+    # Create DataFrame
+    df = spark.createDataFrame(transactions)
+    
+    # PySpark transformations (bronze → silver)
+    success_txns = df.filter(df.status == "success")
+    total_success = success_txns.agg({"amount": "sum"}).collect()[0][0]
+    
+    # Business metrics
+    total_records = df.count()
+    success_count = success_txns.count()
+    success_rate = (success_count / total_records) * 100
+    
+    # Log results (visible in Airflow UI)
+    print(f"🎉 Processed {total_records} transactions")
+    print(f"✅ {success_count} successful = ${total_success:.2f}")
+    print(f"📊 Success rate: {success_rate:.1f}%")
+    
+    # Write results (production: S3 bronze layer)
+    success_txns.write.mode("overwrite").parquet("/tmp/bronze/success_transactions")
+    
+    spark.stop()
+    return f"SUCCESS: {success_count} txns processed"
