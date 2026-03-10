@@ -30,7 +30,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='priyam_transactions_pipeline',
+    dag_id='priyam_transactions_pipeline_test',
     default_args=default_args,
     description='Transaction analytics with PySpark',
     schedule_interval='@hourly',
