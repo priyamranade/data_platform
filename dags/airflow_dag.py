@@ -12,7 +12,7 @@ dag = DAG(
 
 run_pyspark_test = BashOperator(
     task_id='run_pyspark_test',
-    bash_command='python /opt/airflow/pyspark/airflow_dag_script.py',
+    bash_command='python /opt/airflow/dags/pyspark/airflow_dag_script.py',
     dag=dag,
     env={
         'PYSPARK_PYTHON': 'python3',
