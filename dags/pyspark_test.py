@@ -4,6 +4,7 @@ from pyspark.sql import SparkSession
 
 @dag(
     start_date=datetime(2024, 1, 1),
+    dag_id="test_pyspark",
     schedule="@daily",
     catchup=False,
     tags=["pyspark", "test"]
