@@ -5,6 +5,24 @@
 ## 🎯 What This Project Does
 Modern **data platform** with **orchestration**, **processing**, **monitoring**, and **visualization**:
 
+# 🚀 Production Data Platform
+
+**Tested Stack: Docker 29.2.1 + Git 2.53.0.windows.2 + Airflow 2.11.0**
+
+## 📋 Prerequisites (Exact Versions - Tested)
+
+| Tool | Version | Download |
+|------|---------|----------|
+| **Docker Desktop** | **29.2.1** | [Docker Desktop](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe) |
+| **Git** | **2.53.0.windows.2** | [Git for Windows](https://git-scm.com/download/win) |
+| **RAM** | **8GB+** | 11 services running |
+
+### **Windows Install (5 minutes)**
+```powershell
+# 1. Docker Desktop 29.2.1 → Restart PC
+# 2. Git 2.53.0.windows.2 → Next → Next → Finish
+# 3. Verify: docker --version && git --version
+
 ## 🏗️ Architecture (9 Services)
 
 | Service | Role | URL | Tech |
