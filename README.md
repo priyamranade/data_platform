@@ -23,7 +23,7 @@ Modern **data platform** with **orchestration**, **processing**, **monitoring**,
 # 2. Git 2.53.0.windows.2 → Next → Next → Finish
 # 3. Verify: docker --version && git --version
 
-## 🏗️ Architecture (9 Services)
+## 🏗️ COMPLETE SERVICES (11 Containers)
 
 | Service | Role | URL | Tech |
 |---------|------|-----|------|
@@ -32,10 +32,15 @@ Modern **data platform** with **orchestration**, **processing**, **monitoring**,
 | **Grafana** | Visualization | localhost:3000 | Dashboards |
 | **Prometheus** | Metrics | localhost:9090 | Time-series |
 | **Loki** | Logs | localhost:3100 | Centralized |
+| **Fluentbit** | Log Forwarding | Internal | Logs → Loki |
+| **StatsD Exporter** | App Metrics | Internal | StatsD → Prometheus |
 | **Postgres** | Metadata | Internal | Airflow DB |
 | **Redis** | Queue | Internal | Celery |
 | **Git-sync** | DAGs | Internal | Auto-updates |
-| **PySpark** | Processing | Worker | Data Lake | -- can be configured if the spark build is installed using docker airflow services.
+| **PySpark** | Processing | Worker | Data Lake |
+
+## 📊 Monitoring Flow
+
 
 ## 🚀 Quick Start (2 minutes)
 ```powershell
