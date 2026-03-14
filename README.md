@@ -23,7 +23,7 @@ Modern **data platform** with **orchestration**, **processing**, **monitoring**,
 # 2. Git 2.53.0.windows.2 → Next → Next → Finish
 # 3. Verify: docker --version && git --version
 
-## 🏗️ COMPLETE SERVICES (11 Containers)
+### 🏗️ COMPLETE SERVICES (11 Containers)
 
 | Service | Role | URL | Tech |
 |---------|------|-----|------|
@@ -38,8 +38,6 @@ Modern **data platform** with **orchestration**, **processing**, **monitoring**,
 | **Redis** | Queue | Internal | Celery |
 | **Git-sync** | DAGs | Internal | Auto-updates |
 | **PySpark** | Processing | Worker | Data Lake |
-
-## 📊 Monitoring Flow
 
 
 ## 🚀 Quick Start (2 minutes)
