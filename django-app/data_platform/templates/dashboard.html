@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Platform Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000000 !important;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            line-height: 1.4;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 40px;
+            color: #ffffff;
+        }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .service-box {
+            background: #ffffff !important;
+            border: 2px solid #00ff00;
+            color: #000000 !important;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .service-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #000080;
+        }
+        .service-link {
+            color: #0000ff;
+            text-decoration: none;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+        .service-link:hover { 
+            background: #00ff00; 
+            color: #000000; 
+        }
+        .debug-commands {
+            background: #e8e8e8;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #00ff00;
+        }
+        .cmd {
+            background: #ffffff;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid #cccccc;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s;
+            color: #000000;
+        }
+        .cmd:hover { 
+            background: #00ff00; 
+            color: #000000; 
+            border-color: #00ff00;
+        }
+        .debug-panel {
+            background: #ffffff !important;
+            border: 2px solid #ffaa00;
+            color: #000000 !important;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .debug-title { 
+            color: #ff0000;
+            font-size: 22px; 
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">DATA PLATFORM DASHBOARD</h1>
+        
+        <div class="service-grid">
+            <!-- AIRFLOW WEBSERVER -->
+            <div class="service-box">
+                <div class="service-name">🌐 AIRFLOW WEBSERVER</div>
+                <a href="http://localhost:8080" target="_blank" class="service-link">→ http://localhost:8080 (airflow/airflow)</a>
+                <div class="debug-commands">
+                    <div class="cmd" onclick="copy('docker compose logs -f airflow-webserver')">docker compose logs -f airflow-webserver</div>
+                    <div class="cmd" onclick="copy('docker compose restart airflow-webserver')">docker compose restart airflow-webserver</div>
+                    <div class="cmd" onclick="copy('docker exec -it data_platform-airflow-webserver-1 airflow dags list')">docker exec -it data_platform-airflow-webserver-1 airflow dags list</div>
+                    <div class="cmd" onclick="copy('docker compose exec airflow-webserver bash')">docker compose exec airflow-webserver bash</div>
+                </div>
+            </div>
+
+            <!-- AIRFLOW SCHEDULER -->
+            <div class="service-box">
+                <div class="service-name">⏰ AIRFLOW SCHEDULER</div>
+                <div class="service-link" style="opacity: 0.6;">Internal Service - No Direct Link</div>
+                <div class="debug-commands">
+                    <div class="cmd" onclick="copy('docker compose logs -f airflow-scheduler')">docker compose logs -f airflow-scheduler</div>
+                    <div class="cmd" onclick="copy('docker compose restart airflow-scheduler')">docker compose restart airflow-scheduler</div>
+                    <div class="cmd" onclick="copy('docker exec -it data_platform-airflow-scheduler-1 airflow scheduler')">docker exec -it data_platform-airflow-scheduler-1 airflow scheduler</div>
+                </div>
+            </div>
+
+            <!-- AIRFLOW WORKER -->
+            <div class="service-box">
+                <div class="service-name">⚡ AIRFLOW WORKER (PYSPARK)</div>
+                <div class="service-link" style="opacity: 0.6;">Internal Service - No Direct Link</div>
+                <div class="debug-commands">
+                    <div class="cmd" onclick="copy('docker compose logs -f airflow-worker')">docker compose logs -f airflow-worker</div>
+                    <div class="cmd" onclick="copy('docker exec -it data_platform-airflow-worker-1 airflow tasks list test_pyspark')">docker exec -it data_platform-airflow-worker-1 airflow tasks list test_pyspark</div>
+                    <div class="cmd" onclick="copy('docker exec -it data_platform-airflow-worker-1 python -c \"from pyspark.sql import SparkSession; print(\'PySpark OK\')\"'">docker exec -it data_platform-airflow-worker-1 python -c "from pyspark.sql import SparkSession; print('PySpark OK')"</div>
+                </div>
+            </div>
+
+            <!-- DJANGO UI -->
+            <div class="service-box">
+                <div class="service-name">🐳 DJANGO UI</div>
+                <a href="http://localhost:8000" target="_blank" class="service-link">→ http://localhost:8000 (This Dashboard)</a>
+                <div class="debug-commands">
+                    <div class="cmd" onclick="copy('docker compose logs -f django-ui')">docker compose logs -f django-ui</div>
+                    <div class="cmd" onclick="copy('docker compose restart django-ui')">docker compose restart django-ui</div>
+                    <div class="cmd" onclick="copy('docker compose exec django-ui python manage.py migrate')">docker compose exec django-ui python manage.py migrate</div>
+                    <div class="cmd" onclick="copy('docker compose exec django-ui bash')">docker compose exec django-ui bash</div>
+                </div>
+            </div>
+
+            <!-- GRAFANA -->
+            <div class="service-box">
+                <div class="service-name">📊 GRAFANA</div>
+                <a href="http://localhost:3000" target="_blank" class="service-link">→ http://localhost:3000 (admin/admin)</a>
+                <div class="debug-commands">
+                    <div class="cmd" onclick="copy('docker compose logs grafana')">docker compose logs grafana</div>
+                    <div class="cmd" onclick="copy('docker compose restart grafana')">docker compose restart grafana</div>
+                    <div class="cmd" onclick="copy('docker compose exec grafana bash')">docker compose exec grafana bash</div>
+                </div>
+            </div>
+
+            <!-- PROMETHEUS -->
+            <div class="service-box">
+                <div class="service-name">🔥 PROMETHEUS</div>
+                <a href="http://localhost:9090" target="_blank" class="service-link">→ http://localhost:9090</a>
+                <div class="debug-commands">
+                    <div class="cmd" onclick="copy('docker compose logs prometheus')">docker compose logs prometheus</div>
+                    <div class="cmd" onclick="copy('curl localhost:9090/api/v1/query?query=up')">curl localhost:9090/api/v1/query?query=up</div>
+                    <div class="cmd" onclick="copy('docker compose restart prometheus')">docker compose restart prometheus</div>
+                </div>
+            </div>
+
+            <!-- LOKI -->
+            <div class="service-box">
+                <div class="service-name">📝 LOKI</div>
+                <a href="http://localhost:3100" target="_blank" class="service-link">→ http://localhost:3100</a>
+                <div class="debug-commands">
+                    <div class="cmd" onclick="copy('docker compose logs loki')">docker compose logs loki</div>
+                    <div class="cmd" onclick="copy('curl localhost:3100/ready')">curl localhost:3100/ready</div>
+                    <div class="cmd" onclick="copy('docker compose restart loki')">docker compose restart loki</div>
+                </div>
+            </div>
+
+            <!-- POSTGRES -->
+            <div class="service-box">
+                <div class="service-name">🗄️ POSTGRES</div>
+                <div class="service-link" style="opacity: 0.6;">Internal Service - No Direct Link</div>
+                <div class="debug-commands">
+                    <div class="cmd" onclick="copy('docker compose logs postgres')">docker compose logs postgres</div>
+                    <div class="cmd" onclick="copy('docker compose exec postgres psql -U airflow -d airflow')">docker compose exec postgres psql -U airflow -d airflow</div>
+                    <div class="cmd" onclick="copy('docker compose restart postgres')">docker compose restart postgres</div>
+                </div>
+            </div>
+
+            <!-- REDIS -->
+            <div class="service-box">
+                <div class="service-name">📈 REDIS</div>
+                <div class="service-link" style="opacity: 0.6;">Internal Service - No Direct Link</div>
+                <div class="debug-commands">
+                    <div class="cmd" onclick="copy('docker compose logs redis')">docker compose logs redis</div>
+                    <div class="cmd" onclick="copy('docker compose exec redis redis-cli')">docker compose exec redis redis-cli</div>
+                    <div class="cmd" onclick="copy('docker compose restart redis')">docker compose restart redis</div>
+                </div>
+            </div>
+
+            <!-- GIT SYNC -->
+            <div class="service-box">
+                <div class="service-name">🔄 GIT SYNC</div>
+                <div class="service-link" style="opacity: 0.6;">Internal Service - No Direct Link</div>
+                <div class="debug-commands">
+                    <div class="cmd" onclick="copy('docker compose logs git-sync')">docker compose logs git-sync</div>
+                    <div class="cmd" onclick="copy('docker exec data_platform-git-sync-1 ls -la /git/dags/')">docker exec data_platform-git-sync-1 ls -la /git/dags/</div>
+                    <div class="cmd" onclick="copy('docker compose restart git-sync')">docker compose restart git-sync</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="debug-panel">
+            <div class="debug-title">GLOBAL COMMANDS</div>
+            <div class="service-grid">
+                <div class="service-box">
+                    <div class="service-name">🐳 DOCKER STATUS</div>
+                    <div class="debug-commands">
+                        <div class="cmd" onclick="copy('docker compose ps')">docker compose ps</div>
+                        <div class="cmd" onclick="copy('docker compose logs --tail=50')">docker compose logs --tail=50</div>
+                        <div class="cmd" onclick="copy('docker compose down')">docker compose down</div>
+                        <div class="cmd" onclick="copy('docker compose up -d')">docker compose up -d</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copy(cmd) {
+            navigator.clipboard.writeText(cmd).then(() => {
+                event.target.style.background = '#00ff00';
+                event.target.style.color = '#000000';
+                setTimeout(() => {
+                    event.target.style.background = '#ffffff';
+                    event.target.style.color = '#000000';
+                }, 1500);
+            });
+        }
+    </script>
+</body>
+</html>
