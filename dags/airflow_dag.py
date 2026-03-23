@@ -1,6 +1,7 @@
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+import pyspark
 
 def analyze_transactions():
     """Transaction analytics for Priyam's data platform"""
