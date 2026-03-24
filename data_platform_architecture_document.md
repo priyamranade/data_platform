@@ -328,6 +328,7 @@ Additionally:
 - git-sync ensures DAG updates
 
 ## 6. Mermaid Diagram
+
 graph TD
     A[User / Scheduler] --> B[Airflow Scheduler]
     B --> C[Airflow Worker]
