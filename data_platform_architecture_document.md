@@ -327,5 +327,21 @@ Additionally:
 - Prometheus handles metrics
 - git-sync ensures DAG updates
 
----
+## 6. Mermaid Diagram
+graph TD
+    A[User / Scheduler] --> B[Airflow Scheduler]
+    B --> C[Airflow Worker]
+    C --> D[DAG Task Execution]
+    D --> E[Log Files]
+    E --> F[Fluent Bit]
+    F --> G[Loki]
+    G --> H[Grafana]
+
+    C --> I[StatsD Exporter]
+    I --> J[Prometheus]
+    J --> H
+
+    K[GitHub Repo] --> L[git-sync]
+    L --> M[airflow-dags volume]
+    M --> B
 
