@@ -15,7 +15,7 @@ Modern **data platform** with **orchestration**, **processing**, **monitoring**,
 |------|---------|----------|
 | **Docker Desktop** | **29.2.1** | [Docker Desktop](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe) |
 | **Git** | **2.53.0.windows.2** | [Git for Windows](https://git-scm.com/download/win) |
-| **RAM** | **8GB+** | 11 services running |
+| **RAM** | **8GB+** | 11+ services running |
 
 ### **Windows Install (5 minutes)**
 ```powershell
