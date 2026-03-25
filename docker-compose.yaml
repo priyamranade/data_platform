@@ -24,7 +24,9 @@ x-airflow-common:
     AIRFLOW__CORE__ENABLE_XCOM_PICKLING: 'true'
   volumes:
     - airflow-dags:/opt/airflow/dags:ro
-    - airflow-logs:/opt/airflow/logs  
+    # - airflow-logs:/opt/airflow/logs
+    - ./airflow-logs:/opt/airflow/logs
+    # - ./airflow-logs:/opt/airflow/logs # just added a .dot at front here  
     - ./plugins:/opt/airflow/plugins
     - ./pyspark-jars:/opt/spark/jars:ro
   user: "${AIRFLOW_UID}:0"
@@ -151,8 +153,12 @@ services:
 
   fluentbit:
     image: fluent/fluent-bit:latest
+    user: "0:0"  
     volumes:
-      - airflow-logs:/var/log/airflow:delegated
+      - ./airflow-logs:/var/log/airflow:ro
+      # - airflow-logs:/var/log/airflow
+      # - ./airflow-logs:/var/log/airflow:ro   # ✅ Host folder!
+      # - airflow-logs:/var/log/airflow:delegated
       - ./fluentbit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
       - ./fluentbit/parsers.conf:/fluent-bit/etc/parsers.conf:ro  # ✅ ADDED
     depends_on:
